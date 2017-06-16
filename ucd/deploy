@@ -12,13 +12,13 @@
 #############################################
 
 # Input paramaters
-userName=%1
-password=%2
-appName=%3
-appProcess=%4
-envName=%5
-compName=%6
-compVersion=%7
+userName=$1
+password=$2
+appName=$3
+appProcess=$4
+envName=$5
+compName=$6
+compVersion=$7
 
 # other parameters that are set here for now
 ucdURL=https://ss-ucd.rtp.raleigh.ibm.com:8443
@@ -41,6 +41,9 @@ generate_post_data()
 }
 EOF
 }
+
+
+echo "JSON is: $(generate_post_data)"
 
 curl -S -i -k -u ${userName}:${password} \
 -H "Accept: application/json" \
