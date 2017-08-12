@@ -1,0 +1,7 @@
+[user]
+	name = Steve Cotugno
+	email = steve.cotugno@us.ibm.com
+[push]
+	default = upstream
+[merge]
+	conflictstyle = diff3
