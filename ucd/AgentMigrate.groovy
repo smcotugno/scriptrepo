@@ -1,18 +1,29 @@
+//############################################
+//# Date:   8/10/2017
+//# Purpose: This groovy script  will swtich an agent from one agent relay to another.
+//#          It assumes that the agent relay destination is in the same UCD instance
+//#          
+//# Setup:   In UCD, create a generic process and add the groovy script step.  Copy and paste this script into the step
+//#          Create the following process properties: 
+//#             targetJmsHost, targetJmsPort, httpProxyHost, httpProxyPort, server.url
+//#          
+//# References
+//#   https://www.ibm.com/support/knowledgecenter/en/SS4GSP_6.2.4/com.ibm.udeploy.install.doc/topics/agent_properties.html
+//#
+//#############################################
+
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.HttpsURLConnection
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
-// Use Case Supported: 
-// Switch an agent from one agent relay to another on the same UCD instance.  
-//
 
 public class AgentMigrate{
     private final static String fileSep      =System.getProperty("file.separator")
 
 //# Get UCD Server values so that we can make a REST call to restart the agent after the updating the config 
-	  private final static String serverUrl    ="${p:server.url}"       
+    private final static String serverUrl    ="${p:server.url}"       
     private final static String authToken    =System.getenv()['AUTH_TOKEN']
     private final static String agentHome    =System.getenv()['AGENT_HOME']
 
@@ -21,9 +32,11 @@ public class AgentMigrate{
     private final static String jmsPort      ="${p:targetJmsPort}"
     private final static String proxyHost    ="${p:httpProxyHost}"
     private final static String proxyPort    ="${p:httpProxyPort}"
-    private final static String updateReg    ="${p:updateAgentRegistration}"
-	  private final static String agentReg     ="${p:agentRegistration}"
-	  private final static String agentId      ="${p:agent.id}"
+
+    //# These properties are requied if changing the agent id.
+    //# private final static String updateReg    ="${p:updateAgentRegistration}"
+    //# private final static String agentReg     ="${p:agentRegistration}"
+    //# private final static String agentId      ="${p:agent.id}"
 
 	
     static void printMemberVars(){
@@ -73,9 +86,10 @@ public class AgentMigrate{
         agentProperties.setProperty("locked/agent.http.proxy.host",proxyHost)
         agentProperties.setProperty("locked/agent.http.proxy.port",proxyPort)
 		
-		if(updateReg=="true"){
-		    agentProperties.setProperty("locked/agent.id","${agentReg}")
-	    }
+        //# This will update the agent ID if that option is selected
+        //#	if(updateReg=="true"){
+        //# 	    agentProperties.setProperty("locked/agent.id","${agentReg}")
+	//#    }
     }
     
     private static void saveAgentProperties(Properties agentProperties){
