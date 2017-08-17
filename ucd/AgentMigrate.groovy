@@ -1,5 +1,5 @@
 //############################################
-//# Date:   8/10/2017
+//# Date:   8/16/2017
 //# Purpose: This groovy script  will swtich an agent from one agent relay to another.
 //#          It assumes that the agent relay destination is in the same UCD instance
 //#          
@@ -23,9 +23,10 @@ public class AgentMigrate{
     private final static String fileSep      =System.getProperty("file.separator")
 
 //# Get UCD Server values so that we can make a REST call to restart the agent after the updating the config 
+    private final static String authToken    = System.getenv()['AUTH_TOKEN']
+    private final static String agentId      ="${p:agent.id}"
     private final static String serverUrl    ="${p:server.url}"       
-    private final static String authToken    =System.getenv()['AUTH_TOKEN']
-    private final static String agentHome    =System.getenv()['AGENT_HOME']
+    private final static String agentHome    ="${p:AGENT_HOME}"
 
 //#   UCD property input values
     private final static String jmsHost      ="${p:targetJmsHost}"
@@ -36,7 +37,6 @@ public class AgentMigrate{
     //# These properties are requied if changing the agent id.
     //# private final static String updateReg    ="${p:updateAgentRegistration}"
     //# private final static String agentReg     ="${p:agentRegistration}"
-    //# private final static String agentId      ="${p:agent.id}"
 
 	
     static void printMemberVars(){
@@ -143,3 +143,5 @@ public class AgentMigrate{
 
 }
 
+AgentMigrate app = new AgentMigrate();
+app.main(""); //# Execute main
