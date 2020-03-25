@@ -1,2 +1,2 @@
-quote-service
-COM
+gitrepo1
+gitrepo2
